@@ -1,13 +1,24 @@
 /* --- GLOBAL VARIABLES & RESET --- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }  
+
 :root { 
   --yellow: #F9E000; 
-  --black: #111111; 
+  --black: #111111;
+  --white:    #FFFFFF;    
+  --gray-100: #F5F5F5;   
+  --gray-200: #E8E8E8;   
+  --gray-400: #999999;   
+  --gray-600: #555555;   
 }
+
+html { scroll-behavior: smooth; }  
 
 body { 
   font-family: 'Barlow', sans-serif; 
   margin: 0; 
   color: var(--black);
+  background: var(--white);  
+  min-height: 100vh;         
 }
 
 /* --- LAYOUT (App.vue Styles) --- */
@@ -23,24 +34,22 @@ body {
   background: #fff; 
   z-index: 100; 
 }
-
 .nav-logo { 
   font-weight: 900; 
   text-transform: uppercase; 
 }
-
 .nav-links {
   display: flex;
   gap: 20px;
   align-items: center;
 }
-
 .nav-links a {
   text-decoration: none;
   color: var(--black);
   font-weight: 600;
+  transition: opacity 0.15s;  
 }
-
+.nav-links a:hover { opacity: 0.5; }  
 .nav-cta { 
   background: var(--yellow); 
   padding: 8px 16px; 
@@ -49,7 +58,6 @@ body {
   color: var(--black); 
   font-weight: 800; 
 }
-
 footer { 
   background: var(--black); 
   color: var(--yellow); 
@@ -72,14 +80,12 @@ footer {
   text-align: center; 
   padding: 100px 40px; 
 }
-
 .links { 
   display: flex; 
   gap: 20px; 
   justify-content: center; 
   margin-top: 40px; 
 }
-
 .links a { 
   background: var(--yellow); 
   padding: 12px 24px; 
@@ -89,7 +95,6 @@ footer {
   font-weight: 800; 
   transition: transform 0.2s ease;
 }
-
 .links a:hover {
   transform: translateY(-3px);
 }
@@ -101,18 +106,14 @@ footer {
   gap: 30px;
   padding: 40px;
 }
-
 .merch-card {
   border: 1.5px solid var(--black);
   border-radius: 8px;
   overflow: hidden;
   transition: transform 0.2s;
 }
-
 .merch-card:hover { transform: translateY(-5px); }
-
 .card-content { padding: 15px; text-align: left; }
-
 .uni-badge {
   display: inline-block;
   background: #e0f2fe;
@@ -125,3 +126,32 @@ footer {
 
 /* Accessibility Support */
 .large-text p, .large-text h3 { font-size: 1.5rem; }
+
+/* --- BROWSE PAGE LAYOUT --- */ /* ADDED SECTION */
+.main-wrap { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 89px); }
+
+.content { padding: 36px 40px 80px; }
+.content-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; padding-bottom: 18px; border-bottom: 1.5px solid var(--black); }
+.content-heading { font-size: 1.5rem; font-weight: 900; text-transform: uppercase; letter-spacing: -0.5px; }
+.content-count { font-size: 0.75rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray-400); }
+
+.pet-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0; }
+
+.empty-state { grid-column: 1/-1; padding: 100px 40px; text-align: center; color: var(--gray-400); }
+.empty-state .e-icon { font-size: 4rem; display: block; margin-bottom: 14px; }
+.empty-state p { font-size: 1.4rem; font-weight: 900; text-transform: uppercase; }
+.empty-state small { font-size: 0.85rem; font-weight: 600; margin-top: 6px; display: block; }
+
+/* --- ANIMATIONS --- */ /* ADDED SECTION */
+@keyframes fadeUp     { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeOverlay{ from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp    { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse      { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.4; transform:scale(0.7); } }
+
+/* --- RESPONSIVE --- */ /* ADDED SECTION */
+@media (max-width: 860px) {
+  .main-wrap { grid-template-columns: 1fr; }
+  .content { padding: 24px 18px 60px; }
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+}
