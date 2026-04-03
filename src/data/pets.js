@@ -11,7 +11,7 @@ export const TAGS = [
 export const PETS = [
   // Cats
   {
-    id: 1, name: 'Luna', tag: 'cat', age: '2 yrs', breed: 'Siamese',
+    id: 1, name: 'Rania', tag: 'cat', age: '2 yrs', breed: 'Tabby',
     image: 'src/assets/images/cat1.jpeg',
     vaccinated: ' Up to date', location: 'Downtown Shelter, Toronto',
     temperament: 'Calm, curious',
