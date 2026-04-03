@@ -9,9 +9,25 @@
         <RouterLink to="/browse" class="nav-cta">Adopt Now</RouterLink>
       </div>
     </nav>
-
-    <RouterView />
-
+    <RouterView @open-modal="openModal" />
     <footer>🐾 PawMatch 2026</footer>
+    <PetModal v-if="selectedPet" :pet="selectedPet" @close="closeModal" />
   </div>
 </template>
+
+<script setup>
+import { ref } from 'vue'
+import PetModal from './components/PetModal.vue'
+
+const selectedPet = ref(null)
+
+function openModal(pet) {
+  selectedPet.value = pet
+  document.body.style.overflow = 'hidden'
+}
+
+function closeModal() {
+  selectedPet.value = null
+  document.body.style.overflow = ''
+}
+</script>
