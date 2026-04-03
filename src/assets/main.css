@@ -1,0 +1,95 @@
+/* --- GLOBAL VARIABLES & RESET --- */
+:root { 
+  --yellow: #F9E000; 
+  --black: #111111; 
+}
+
+body { 
+  font-family: 'Barlow', sans-serif; 
+  margin: 0; 
+  color: var(--black);
+}
+
+/* --- LAYOUT (App.vue Styles) --- */
+.nav { 
+  height: 64px; 
+  border-bottom: 1.5px solid var(--black); 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  padding: 0 40px; 
+  position: sticky; 
+  top: 0; 
+  background: #fff; 
+  z-index: 100; 
+}
+
+.nav-logo { 
+  font-weight: 900; 
+  text-transform: uppercase; 
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--black);
+  font-weight: 600;
+}
+
+.nav-cta { 
+  background: var(--yellow); 
+  padding: 8px 16px; 
+  border: 1.5px solid var(--black); 
+  text-decoration: none; 
+  color: var(--black); 
+  font-weight: 800; 
+}
+
+footer { 
+  background: var(--black); 
+  color: var(--yellow); 
+  text-align: center; 
+  padding: 20px; 
+  font-weight: 800; 
+}
+
+/* --- NAVBAR STYLES --- */
+.nav-logo { 
+  font-weight: 900; 
+  text-transform: uppercase; 
+  text-decoration: none; /* Removes the underline */
+  color: var(--black);   /* Keeps the text black instead of link-blue */
+  cursor: pointer;
+}
+
+/* --- COMPONENT STYLES --- */
+.home { 
+  text-align: center; 
+  padding: 100px 40px; 
+}
+
+.links { 
+  display: flex; 
+  gap: 20px; 
+  justify-content: center; 
+  margin-top: 40px; 
+}
+
+.links a { 
+  background: var(--yellow); 
+  padding: 12px 24px; 
+  border: 1.5px solid var(--black); 
+  text-decoration: none; 
+  color: var(--black); 
+  font-weight: 800; 
+  transition: transform 0.2s ease;
+}
+
+.links a:hover {
+  transform: translateY(-3px);
+}
