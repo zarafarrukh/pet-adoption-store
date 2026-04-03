@@ -83,7 +83,7 @@ export const PETS = [
   },
   // Bunnies
   {
-    id: 17, name: 'Clover', tag: 'bunny', age: '1 yr', breed: 'Holland Lop',
+    id: 17, name: 'Timbit', tag: 'bunny', age: '1 yr', breed: 'Holland Lop',
     image: 'https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=700&auto=format&fit=crop&q=80',
     vaccinated: ' Up to date', location: 'Bunny Burrow Rescue, Toronto',
     temperament: 'Gentle, curious', 
