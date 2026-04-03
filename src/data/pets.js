@@ -2,6 +2,9 @@
  * TAGS defines the available categories for filtering.
  * Each object contains a unique ID, a display Label, and a UI Emoji.
  */
+
+export const PETS = [] // temp arr to avoid console error
+
 export const TAGS = [
   { id: 'cat',     label: 'Cats',     emoji: '🐱' },
   { id: 'dog',     label: 'Dogs',     emoji: '🐶' },

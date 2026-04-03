@@ -3,23 +3,20 @@
     <nav class="nav">
       <div class="nav-logo">🐾 PawMatch</div>
       <div class="nav-links">
-        <a href="#">Browse</a>
-        <a href="#" class="nav-cta">Adopt Now</a>
+        <RouterLink to="/browse">Browse</RouterLink>
+        <RouterLink to="/merch">Shop</RouterLink>
+        <RouterLink to="/quiz">Pet Quiz</RouterLink>
+        <RouterLink to="/browse" class="nav-cta">Adopt Now</RouterLink>
       </div>
     </nav>
 
-    <BrowsePets />
+    <RouterView />
 
     <footer>🐾 PawMatch 2026</footer>
   </div>
 </template>
 
-<script setup>
-import BrowsePets from './views/BrowsePets.vue';
-</script>
-
 <style>
-/* Global styles like fonts and reset */
 :root { --yellow: #F9E000; --black: #111111; }
 body { font-family: 'Barlow', sans-serif; margin: 0; }
 .nav { height: 64px; border-bottom: 1.5px solid #111; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; position: sticky; top: 0; background: #fff; z-index: 100; }
