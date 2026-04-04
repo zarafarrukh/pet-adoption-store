@@ -3,4 +3,4 @@ A pet adoption platform featuring live shelter listings, a pet matcher quiz and 
 
 ## How to run
 Clone the repository
-From the terminal, run the command: npm run dev
+From the terminal, run the command: `npm run dev`
