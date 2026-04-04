@@ -660,10 +660,10 @@ footer {
 
 /* --- Cart Sidebar --- */
 .merch-cart-overlay {
-  position: absolute;
+  position: fixed;
   inset: 0;
   background: rgba(58, 46, 34, 0.4);
-  z-index: 200;
+  z-index: 1100;
   display: flex;
   justify-content: flex-end;
 }
@@ -673,7 +673,8 @@ footer {
   width: 320px;
   padding: 28px 24px;
   border-left: 1px dashed var(--merch-border-soft);
-  min-height: 100%;
+  height: 100vh;
+  overflow-y: auto;
 }
 
 .merch-cart-header {
@@ -777,7 +778,7 @@ footer {
   position: fixed;
   inset: 0;
   background: rgba(58, 46, 34, 0.5);
-  z-index: 300;
+  z-index: 1100;
   display: flex;
   align-items: center;
   justify-content: center;
