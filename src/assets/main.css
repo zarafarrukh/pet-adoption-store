@@ -22,6 +22,11 @@ body {
 }
 
 /* --- LAYOUT (App.vue Styles) --- */
+#app-layout {
+  /* prevents content from hiding behind the fixed navbar */
+  padding-top: 64px; 
+}
+
 .nav { 
   height: 64px; 
   border-bottom: 1.5px solid var(--black); 
@@ -29,10 +34,16 @@ body {
   align-items: center; 
   justify-content: space-between; 
   padding: 0 40px; 
-  position: sticky; 
+  position: fixed; 
   top: 0; 
+  left: 0;
+  width: 100%;
   background: #fff; 
-  z-index: 100; 
+  z-index: 1000;
+  transition: transform 0.3s ease-in-out;
+}
+.nav--hidden {
+  transform: translateY(-100%);
 }
 .nav-logo { 
   font-weight: 900; 
@@ -107,12 +118,16 @@ footer {
   --merch-card-bg:     #faf6f0;
   --merch-border:      #d6c9b4;
   --merch-border-soft: #c9b8a8;
-  --merch-ink:         #3a2e22;
-  --merch-ink-mid:     #6b5c4e;
-  --merch-ink-light:   #8a7a68;
-  --merch-ink-faint:   #b0a090;
-  --merch-stripe-a:    #c9b8a8;
+  --merch-ink:         #241a0f;
+  --merch-ink-mid:     #4a3a2a;
+  --merch-ink-light:   #6b5c4e;
+  --merch-ink-faint:   #9a8878;
+  --merch-stripe-a:    #b85a52;
   --merch-stripe-b:    #e8ddd0;
+  --merch-rose:    #d4837a;
+  --merch-sage:    #8fad88;
+  --merch-amber:   #f1c46f;
+  --merch-lavender:#a899c2;
   --merch-font-serif:  'Cormorant Garamond', Georgia, serif;
   --merch-font-sans:   'Jost', system-ui, sans-serif;
 }
@@ -157,8 +172,23 @@ footer {
   flex: 1;
 }
 
-.merch-stripe:nth-child(odd)  { background: var(--merch-stripe-a); }
-.merch-stripe:nth-child(even) { background: var(--merch-stripe-b); }
+.merch-stripe:nth-child(1),  .merch-stripe:nth-child(7),
+.merch-stripe:nth-child(13), .merch-stripe:nth-child(19) { background: #d4837a; }
+
+.merch-stripe:nth-child(2),  .merch-stripe:nth-child(8),
+.merch-stripe:nth-child(14), .merch-stripe:nth-child(20) { background: #f0e9de; }
+
+.merch-stripe:nth-child(3),  .merch-stripe:nth-child(9),
+.merch-stripe:nth-child(15) { background: #8fad88; }
+
+.merch-stripe:nth-child(4),  .merch-stripe:nth-child(10),
+.merch-stripe:nth-child(16) { background: #f0e9de; }
+
+.merch-stripe:nth-child(5),  .merch-stripe:nth-child(11),
+.merch-stripe:nth-child(17) { background: #f1c46f; }
+
+.merch-stripe:nth-child(6),  .merch-stripe:nth-child(12),
+.merch-stripe:nth-child(18) { background: #f0e9de; }
 
 /* --- Storefront Header --- */
 .merch-storefront {
@@ -222,8 +252,8 @@ footer {
 
 /* --- Basket Button --- */
 .merch-basket-btn {
-  background: var(--merch-ink);
-  color: var(--merch-bg);
+  background: var(--merch-amber);
+  color: #241a0f;
   border: none;
   padding: 9px 20px;
   font-size: 12px;
@@ -237,11 +267,11 @@ footer {
   transition: opacity 0.2s;
 }
 
-.merch-basket-btn:hover { opacity: 0.85; }
+.merch-basket-btn:hover { opacity: 0.75; }
 
 .merch-basket-count {
-  background: var(--merch-stripe-a);
-  color: var(--merch-ink);
+  background: var(--merch-ink);
+  color: var(--merch-amber);
   font-size: 11px;
   font-weight: 500;
   width: 20px;
@@ -250,6 +280,28 @@ footer {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+}
+
+.merch-cart-img-box {
+  width: 45px;
+  height: 45px;
+  background: var(--merch-surface-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--merch-border-soft);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.merch-cart-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.merch-cart-emoji {
+  font-size: 20px;
 }
 
 /* --- Search + Category Bar --- */
@@ -300,9 +352,9 @@ footer {
 
 .merch-tag:hover,
 .merch-tag--active {
-  background: var(--merch-ink);
-  color: var(--merch-bg);
-  border-color: var(--merch-ink);
+  background: var(--merch-rose);
+  color: #fff;
+  border-color: var(--merch-rose);
 }
 
 /* --- Body Layout --- */
@@ -389,7 +441,7 @@ footer {
 }
 
 .merch-jar-fill {
-  background: var(--merch-border-soft);
+  background: var(--merch-sage);
   transition: height 0.8s ease;
 }
 
@@ -502,8 +554,8 @@ footer {
   position: absolute;
   top: 8px;
   right: 8px;
-  background: var(--merch-ink);
-  color: var(--merch-bg);
+  background: var(--merch-sage);
+  color: #fff;
   font-size: 9px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -514,8 +566,9 @@ footer {
 
 .merch-therapy-badge {
   display: inline-block;
-  background: var(--merch-surface-2);
-  color: var(--merch-ink-mid);
+  background: #ede9f5;
+  color: var(--merch-lavender);
+  border-color: var(--merch-lavender);
   font-size: 10px;
   padding: 2px 8px;
   letter-spacing: 0.06em;
@@ -721,7 +774,7 @@ footer {
 
 /* --- Donation Modal --- */
 .merch-modal-overlay {
-  position: absolute;
+  position: fixed;
   inset: 0;
   background: rgba(58, 46, 34, 0.5);
   z-index: 300;

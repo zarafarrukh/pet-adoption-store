@@ -160,7 +160,11 @@
 
           <div v-else>
             <div v-for="(item, index) in cart" :key="index" class="merch-cart-item">
-              <span class="merch-cart-emoji">{{ item.emoji }}</span>
+              <div class="merch-cart-img-box">
+                <img v-if="item.image" :src="item.image" :alt="item.name" class="merch-cart-img" />
+                <span v-else class="merch-cart-emoji">{{ item.emoji }}</span>
+              </div>
+              
               <div class="merch-cart-item-info">
                 <p class="merch-cart-item-name">{{ item.name }}</p>
                 <p class="merch-cart-item-price">${{ item.price.toFixed(2) }}</p>
@@ -224,7 +228,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { MERCH_ITEMS, CATEGORIES, FILTERS, SORT_OPTIONS, DONATE_AMOUNTS } from '../data/merch';
 
-// ── State ──────────────────────────────────────────────────────────────────
+// ── State ──
 const items        = ref(MERCH_ITEMS.map(i => ({ ...i })));
 const cart         = ref([]);
 const searchQuery  = ref('');
@@ -239,7 +243,7 @@ const donationTotal  = ref(630);
 const donationGoal   = ref(1000);
 const donationInput  = ref(10);
 
-// ── Computed ───────────────────────────────────────────────────────────────
+// ── Computed donations ──
 const donationPercent = computed(() =>
   Math.min((donationTotal.value / donationGoal.value) * 100, 100)
 );
@@ -277,7 +281,7 @@ const cartTotal = computed(() =>
   cart.value.reduce((sum, i) => sum + i.price, 0).toFixed(2)
 );
 
-// ── Methods ────────────────────────────────────────────────────────────────
+// ── Methods ──
 function addToCart(item) {
   if (item.stock > 0) {
     cart.value.push({ ...item });
