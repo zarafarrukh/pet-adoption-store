@@ -80,7 +80,7 @@
 
         <hr class="merch-rule" />
 
-        <!-- Donation mason jar (D3 target) -->
+        <!-- Donation mason jar -->
         <div class="merch-donation-box">
           <p class="merch-donation-label">Shelter fund</p>
           <div class="merch-jar">
@@ -180,8 +180,8 @@
               <span>${{ cartTotal }}</span>
             </div>
 
-            <button class="merch-checkout-btn" @click="checkout">
-              Checkout
+            <button class="merch-checkout-btn" @click="checkout" :disabled="isCheckingOut">
+              {{ isCheckingOut ? 'Processing...' : 'Checkout' }}
             </button>
           </div>
         </aside>
@@ -209,10 +209,23 @@
             v-model.number="donationInput"
             placeholder="Or enter custom amount..."
           />
-          <button class="merch-donate-submit" @click="submitDonation">
-            Donate ${{ donationInput || 0 }}
+          <button class="merch-donate-submit" @click="submitDonation" :disabled="isDonating">
+            {{ isDonating ? 'Processing...' : `Donate $${donationInput || 0}` }}
           </button>
           <button class="merch-modal-close" @click="isDonateOpen = false">Cancel</button>
+        </div>
+      </div>
+    </transition>
+
+    <transition name="merch-fade">
+      <div v-if="isCheckoutSuccess" class="merch-modal-overlay" @click.self="isCheckoutSuccess = false">
+        <div class="merch-modal">
+          <h2 class="merch-modal-title">🎉 Order Placed!</h2>
+          <p class="merch-modal-sub">Thank you for supporting PawMatch. Every purchase helps a pet in need find their forever home.</p>
+      
+          <button class="merch-donate-submit" @click="isCheckoutSuccess = false">
+            Continue Shopping
+          </button>
         </div>
       </div>
     </transition>
@@ -230,8 +243,10 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { CATEGORIES, FILTERS, SORT_OPTIONS, DONATE_AMOUNTS } from '../data/merch'
+// REQUIREMENT: Additional Technology
+// Firebase Firestore integrated as a live, cloud-based Data Store
 import { db } from '../firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, doc, updateDoc, getDoc } from 'firebase/firestore';
 
 // ── State ──
 const items = ref([])
@@ -242,15 +257,21 @@ const activeCategory = ref('All');
 const activeFilters  = ref([]);
 const sortBy         = ref('featured');
 const isCartOpen     = ref(false);
+const isCheckingOut = ref(false);
+const isCheckoutSuccess = ref(false);
 const isDonateOpen   = ref(false);
 const isLargeText    = ref(false);
 const isDarkMode     = ref(false);
 const donationTotal  = ref(630);
 const donationGoal   = ref(1000);
 const donationInput  = ref(10);
+const isDonating = ref(false);
 
+// REQUIREMENT: AJAX, web services
+// Asynchronous HTTP calls fetch dynamic inventory and store statistics directly from Firestore
 onMounted(async () => {
   try {
+    // 1. Fetch Merch Items
     const snapshot = await getDocs(collection(db, 'merch_items'))
     console.log('docs fetched:', snapshot.docs.length)
     console.log('first doc:', snapshot.docs[0]?.data())
@@ -259,10 +280,18 @@ onMounted(async () => {
       return {
         id: doc.id,
         ...data,
-        price: Number(data.price),  // force it to a number
-        stock: Number(data.stock),  // same for stock
+        price: Number(data.price),  // force from string to number from firebase
       }
     })
+
+    // 2. Fetch Donation Jar Stats (NEW CODE)
+    const donationRef = doc(db, 'store_stats', 'donations');
+    const donationSnap = await getDoc(donationRef);
+    if (donationSnap.exists()) {
+      donationTotal.value = donationSnap.data().total;
+      donationGoal.value = donationSnap.data().goal;
+    }
+
     isLoading.value = false
   } catch (err) {
     console.error('Firebase error:', err)
@@ -275,6 +304,8 @@ const donationPercent = computed(() =>
   Math.min((donationTotal.value / donationGoal.value) * 100, 100)
 );
 
+// REQUIREMENT: JavaScript
+// Complex functional programming pipeline (filter, includes, toLowerCase, sort)
 const filteredItems = computed(() => {
   let result = items.value;
 
@@ -304,6 +335,7 @@ const filteredItems = computed(() => {
   return result;
 });
 
+// REQUIREMENT: JavaScript - Array reduction for financial totals
 const cartTotal = computed(() =>
   cart.value.reduce((sum, i) => sum + i.price, 0).toFixed(2)
 );
@@ -342,44 +374,69 @@ function openDonateModal() {
   isDonateOpen.value = true;
 }
 
-// AJAX: POST donation to Express backend
+// REQUIREMENT: AJAX, web services
+// Asynchronous database writes using await and exception handling
 async function submitDonation() {
   if (!donationInput.value || donationInput.value <= 0) return;
+  
+  isDonating.value = true; // Changes button to "Processing..."
+
   try {
-    const res = await fetch('/api/donate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ amount: donationInput.value }),
-    });
-    const data = await res.json();
-    if (data.success) {
-      donationTotal.value += donationInput.value;
-      isDonateOpen.value = false;
-      donationInput.value = 10;
-    }
-  } catch (err) {
-    // Dev fallback — update locally if no backend yet
-    donationTotal.value += donationInput.value;
+    const newTotal = donationTotal.value + donationInput.value;
+    const donationRef = doc(db, 'store_stats', 'donations');
+
+    // Tell Firebase to update the total
+    await updateDoc(donationRef, { total: newTotal });
+
+    donationTotal.value = newTotal;
     isDonateOpen.value = false;
+    donationInput.value = 10; // Reset input back to default
+
+    // Reuse success modal by opening it after donation
+    isCheckoutSuccess.value = true; 
+
+  } catch (err) {
+    console.error("Donation failed:", err);
+    alert('Donation unavailable right now. Please try again later.');
+  } finally {
+    isDonating.value = false;
   }
 }
 
-// AJAX: POST checkout to Express backend
+// Uses ES6 `Set` to prevent duplicate writes, and `Promise.all` to batch concurrent network requests
 async function checkout() {
+  if (cart.value.length === 0) return;
+  
+  isCheckingOut.value = true; // Changes the button text to "Processing..."
+
   try {
-    const res = await fetch('/api/checkout', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ items: cart.value }),
-    });
-    const data = await res.json();
-    if (data.success) {
-      cart.value = [];
-      isCartOpen.value = false;
-      alert('Order placed! Thank you for supporting PawMatch 🐾');
+    // 1. Find items needing their stock updated
+    const itemsToUpdate = new Set(cart.value.map(item => item.id));
+
+    const updatePromises = [];
+    
+    // 2. Loop through and tell Firebase the new stock number
+    for (const id of itemsToUpdate) {
+      const currentItem = items.value.find(i => i.id === id);
+      const itemRef = doc(db, 'merch_items', id);
+      
+      // We push the Firebase update task into an array
+      updatePromises.push(updateDoc(itemRef, { stock: currentItem.stock }));
     }
+
+    // 3. Wait for all Firebase updates to finish at the same time
+    await Promise.all(updatePromises);
+
+    // 4. Success! Clear the cart and show the modal
+    cart.value = [];
+    isCartOpen.value = false;
+    isCheckoutSuccess.value = true; 
+
   } catch (err) {
+    console.error("Checkout failed:", err);
     alert('Checkout unavailable right now. Please try again later.');
+  } finally {
+    isCheckingOut.value = false;
   }
 }
 

@@ -1,7 +1,10 @@
 <template>
   <div id="app-layout">
     <nav :class="['nav', { 'nav--hidden': isHidden }]">
-      <RouterLink to="/" class="nav-logo">🐾 PawMatch</RouterLink>
+      <RouterLink to="/" class="nav-logo">
+        <img src="/pawmatch-logo.png" alt="PawMatch Logo" class="nav-logo-img" />
+        PawMatch
+      </RouterLink>
       <div class="nav-links">
         <RouterLink to="/browse">Browse</RouterLink>
         <RouterLink to="/merch">Shop</RouterLink>
@@ -12,7 +15,7 @@
     
     <RouterView @open-modal="openModal" />
     
-    <footer>🐾 PawMatch 2026</footer>
+    <footer>PawMatch 2026</footer>
     <PetModal v-if="selectedPet" :pet="selectedPet" @close="closeModal" />
   </div>
 </template>
