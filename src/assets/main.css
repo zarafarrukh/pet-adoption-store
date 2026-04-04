@@ -100,17 +100,6 @@ footer {
 }
 
 /* --- MERCH PAGE STYLES --- */
-/* ============================================================
-   MERCH PAGE — The Paw-tique
-   Cottage core / vintage awning aesthetic
-   All class names prefixed with merch- to avoid conflicts
-   ============================================================ */
-
-/* --- Fonts (add to index.html <head>) ---
-   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
-*/
-
-/* --- CSS Variables --- */
 :root {
   --merch-bg:          #f7f2ea;
   --merch-surface:     #f0e9de;
@@ -430,9 +419,6 @@ footer {
   color: var(--merch-bg);
   border-color: var(--merch-ink);
 }
-
-/* --- D3 Stock Chart --- */
-#merch-stock-chart svg text { font-family: var(--merch-font-sans); }
 
 /* --- Main Grid --- */
 .merch-main {

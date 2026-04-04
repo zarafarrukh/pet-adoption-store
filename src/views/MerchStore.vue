@@ -89,12 +89,6 @@
           <p class="merch-jar-amount">${{ donationTotal }} of ${{ donationGoal }}</p>
           <button class="merch-donate-btn" @click="openDonateModal">Donate</button>
         </div>
-
-        <hr class="merch-rule" />
-
-        <!-- D3 chart mounts here -->
-        <p class="merch-sidebar-heading">Stock levels</p>
-        <div id="merch-stock-chart"></div>
       </aside>
 
       <!-- Product grid -->
@@ -357,42 +351,6 @@ async function checkout() {
     alert('Checkout unavailable right now. Please try again later.');
   }
 }
-
-// D3 stock chart — mounts after component renders
-onMounted(async () => {
-  try {
-    const d3 = await import('https://cdn.jsdelivr.net/npm/d3@7/+esm');
-    const data = MERCH_ITEMS.slice(0, 6).map(i => ({ name: i.name.split(' ')[0], stock: i.stock }));
-    const w = 170, h = 120, margin = { top: 8, right: 8, bottom: 24, left: 24 };
-
-    const svg = d3.select('#merch-stock-chart')
-      .append('svg')
-      .attr('width', w)
-      .attr('height', h);
-
-    const x = d3.scaleBand().domain(data.map(d => d.name)).range([margin.left, w - margin.right]).padding(0.3);
-    const y = d3.scaleLinear().domain([0, d3.max(data, d => d.stock)]).range([h - margin.bottom, margin.top]);
-
-    svg.append('g').attr('transform', `translate(0,${h - margin.bottom})`)
-      .call(d3.axisBottom(x).tickSize(0))
-      .call(g => g.select('.domain').remove())
-      .selectAll('text').style('font-size', '9px').style('fill', '#8a7a68');
-
-    svg.append('g').attr('transform', `translate(${margin.left},0)`)
-      .call(d3.axisLeft(y).ticks(3).tickSize(0))
-      .call(g => g.select('.domain').remove())
-      .selectAll('text').style('font-size', '9px').style('fill', '#8a7a68');
-
-    svg.selectAll('rect').data(data).join('rect')
-      .attr('x', d => x(d.name))
-      .attr('y', d => y(d.stock))
-      .attr('width', x.bandwidth())
-      .attr('height', d => y(0) - y(d.stock))
-      .attr('fill', '#c9b8a8');
-  } catch (e) {
-    console.warn('D3 chart not loaded:', e);
-  }
-});
 </script>
 
 <style>
