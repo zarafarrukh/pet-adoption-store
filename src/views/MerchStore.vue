@@ -351,6 +351,7 @@ async function checkout() {
     alert('Checkout unavailable right now. Please try again later.');
   }
 }
+
 </script>
 
 <style>
