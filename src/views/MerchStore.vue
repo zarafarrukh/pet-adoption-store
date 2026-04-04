@@ -94,13 +94,16 @@
       <!-- Product grid -->
       <main class="merch-main">
         <p class="merch-section-label">{{ filteredItems.length }} items available</p>
-
         <!-- Empty state -->
         <div v-if="filteredItems.length === 0" class="merch-empty">
           <p>No items found. Try a different search or filter.</p>
         </div>
 
-        <div class="merch-grid">
+        <div v-if="isLoading" class="merch-empty">
+          <p>Loading the shop...</p>
+        </div>
+
+        <div v-else class="merch-grid">
           <div
             v-for="item in filteredItems"
             :key="item.id"
@@ -164,7 +167,7 @@
                 <img v-if="item.image" :src="item.image" :alt="item.name" class="merch-cart-img" />
                 <span v-else class="merch-cart-emoji">{{ item.emoji }}</span>
               </div>
-              
+
               <div class="merch-cart-item-info">
                 <p class="merch-cart-item-name">{{ item.name }}</p>
                 <p class="merch-cart-item-price">${{ item.price.toFixed(2) }}</p>
@@ -226,10 +229,13 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import { MERCH_ITEMS, CATEGORIES, FILTERS, SORT_OPTIONS, DONATE_AMOUNTS } from '../data/merch';
+import { CATEGORIES, FILTERS, SORT_OPTIONS, DONATE_AMOUNTS } from '../data/merch'
+import { db } from '../firebase';
+import { collection, getDocs } from 'firebase/firestore';
 
 // ── State ──
-const items        = ref(MERCH_ITEMS.map(i => ({ ...i })));
+const items = ref([])
+const isLoading = ref(true)
 const cart         = ref([]);
 const searchQuery  = ref('');
 const activeCategory = ref('All');
@@ -242,6 +248,27 @@ const isDarkMode     = ref(false);
 const donationTotal  = ref(630);
 const donationGoal   = ref(1000);
 const donationInput  = ref(10);
+
+onMounted(async () => {
+  try {
+    const snapshot = await getDocs(collection(db, 'merch_items'))
+    console.log('docs fetched:', snapshot.docs.length)
+    console.log('first doc:', snapshot.docs[0]?.data())
+    items.value = snapshot.docs.map(doc => {
+      const data = doc.data()
+      return {
+        id: doc.id,
+        ...data,
+        price: Number(data.price),  // force it to a number
+        stock: Number(data.stock),  // same for stock
+      }
+    })
+    isLoading.value = false
+  } catch (err) {
+    console.error('Firebase error:', err)
+    isLoading.value = false
+  }
+})
 
 // ── Computed donations ──
 const donationPercent = computed(() =>
