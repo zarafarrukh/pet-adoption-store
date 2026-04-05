@@ -1,15 +1,28 @@
 <template>
   <div :class="['merch-page', { 'merch-large-text': isLargeText }]">
-
     <!-- Awning stripes -->
     <div class="merch-awning" aria-hidden="true">
       <div class="merch-stripe" v-for="n in 20" :key="n"></div>
     </div>
 
-    <!-- Storefront header -->
+    <!-- Storefront header with SVG cat on it-->
     <header class="merch-storefront">
       <div class="merch-store-identity">
-        <h1 class="merch-store-name">The Paw-tique</h1>
+        <h1 class="merch-store-name">
+          The 
+          <span class="logo-p-container">
+            <svg class="header-cat" viewBox="0 0 50 30" width="45" height="25">
+              <path class="cat-tail-wag" d="M10,20 Q2,15 5,10" fill="none" stroke="var(--black)" stroke-width="3" stroke-linecap="round" />
+              <path d="M12,25 Q12,10 25,10 T38,25 Z" fill="white" stroke="var(--black)" stroke-width="2" />
+              <circle cx="35" cy="15" r="7" fill="white" stroke="var(--black)" stroke-width="2" />
+              <path d="M30,10 L32,4 L35,8" fill="white" stroke="var(--black)" stroke-width="2" />
+              <path d="M40,10 L38,4 L35,8" fill="white" stroke="var(--black)" stroke-width="2" />
+              <path d="M32,15 Q33,16 34,15" fill="none" stroke="var(--black)" stroke-width="1" />
+              <path d="M36,15 Q37,16 38,15" fill="none" stroke="var(--black)" stroke-width="1" />
+            </svg>
+            P
+          </span>aw-tique
+        </h1>
         <p class="merch-store-tagline">handpicked treasures for your beloved companions</p>
       </div>
       <div class="merch-header-actions">
@@ -82,10 +95,10 @@
 
         <!-- Donation mason jar -->
         <div class="merch-donation-box">
-          <p class="merch-donation-label">Shelter fund</p>
-          <div class="merch-jar">
-            <div class="merch-jar-fill" :style="{ height: donationPercent + '%' }"></div>
-          </div>
+          <p class="merch-donation-label">Shelter fund jar</p>
+
+          <div ref="jarContainer" class="merch-d3-jar"></div>
+
           <p class="merch-jar-amount">${{ donationTotal }} of ${{ donationGoal }}</p>
           <button class="merch-donate-btn" @click="openDonateModal">Donate</button>
         </div>
@@ -128,17 +141,20 @@
               <div class="merch-card-footer">
                 <span class="merch-card-price">${{ item.price.toFixed(2) }}</span>
                 <div class="merch-card-actions">
+
+                  <!--REQUIREMENT: SVG speaker symbol for text-to-speech button-->
                   <button
                     class="merch-tts-btn"
                     @click="readAloud(item.description)"
                     title="Read description aloud"
                     aria-label="Read description aloud"
-                  >🔊</button>
-                  <button
-                    v-if="item.stock > 0"
-                    class="merch-add-btn"
-                    @click="addToCart(item)"
-                  >+ Add</button>
+                  ><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="merch-tts-icon">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                  </svg></button>
+                  <button v-if="item.stock > 0" class="merch-add-btn" @click="addToCart(item, $event)">
+                    + Add
+                  </button>
                   <span v-else class="merch-soldout-badge">Sold out</span>
                 </div>
               </div>
@@ -158,6 +174,7 @@
           </div>
 
           <div v-if="cart.length === 0" class="merch-cart-empty">
+            <img src="/public/empty-basket.png" alt="Sleeping cat" class="empty-basket-icon" />
             <p>Your basket is empty.</p>
           </div>
 
@@ -241,12 +258,13 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { CATEGORIES, FILTERS, SORT_OPTIONS, DONATE_AMOUNTS } from '../data/merch'
-// REQUIREMENT: Additional Technology
+// REQUIREMENT: Additional Technology firebase
 // Firebase Firestore integrated as a live, cloud-based Data Store
 import { db } from '../firebase';
 import { collection, getDocs, doc, updateDoc, getDoc } from 'firebase/firestore';
+import * as d3 from 'd3';
 
 // ── State ──
 const items = ref([])
@@ -266,10 +284,21 @@ const donationTotal  = ref(630);
 const donationGoal   = ref(1000);
 const donationInput  = ref(10);
 const isDonating = ref(false);
+// --- D3 State ---
+const jarContainer = ref(null);
+let svgWidth = 80;
+let svgHeight = 110;
+
 
 // REQUIREMENT: AJAX, web services
 // Asynchronous HTTP calls fetch dynamic inventory and store statistics directly from Firestore
 onMounted(async () => {
+  // Check the "notebook" for a saved basket
+  const savedCart = localStorage.getItem('pawmatch-basket');
+  if (savedCart) {
+    cart.value = JSON.parse(savedCart);
+  }
+
   try {
     // 1. Fetch Merch Items
     const snapshot = await getDocs(collection(db, 'merch_items'))
@@ -295,9 +324,112 @@ onMounted(async () => {
     isLoading.value = false
   } catch (err) {
     console.error('Firebase error:', err)
-    isLoading.value = false
+    isLoading.value = false;
+    // Draw D3 jar after Vue finishes setting up the HTML
+    setTimeout(() => {
+      renderD3Jar();
+    }, 100);
   }
-})
+});
+
+// Redraw jar and add bubbles when donation changes
+watch(donationTotal, () => {
+  renderD3Jar();
+  spawnBubbles();
+});
+
+// Automatically syncs the reactive cart state to browser localStorage
+watch(cart, (newCart) => {
+  localStorage.setItem('pawmatch-basket', JSON.stringify(newCart));
+}, { deep: true }); // "deep: true" is critical so it sees when items are added/removed
+
+// REQUIREMENT: D3.js Liquid Wave Logic
+function renderD3Jar() {
+  if (!jarContainer.value) return;
+
+  // Clear previous SVG to prevent duplicates
+  d3.select(jarContainer.value).selectAll("*").remove();
+
+  const svg = d3.select(jarContainer.value)
+    .append("svg")
+    .attr("width", svgWidth)
+    .attr("height", svgHeight)
+    .style("border", "2px solid var(--black)")
+    .style("border-radius", "4px 4px 24px 24px")
+    .style("background", "transparent")
+    .style("overflow", "hidden")
+    .style("display", "block")
+    .style("margin", "0 auto 16px auto");
+
+  const percent = donationPercent.value / 100;
+  const liquidHeight = svgHeight * percent;
+  const yPos = svgHeight - liquidHeight;
+
+  const group = svg.append("g");
+
+  // Liquid base
+  group.append("rect")
+    .attr("x", 0)
+    .attr("y", yPos)
+    .attr("width", svgWidth)
+    .attr("height", svgHeight)
+    .attr("fill", "var(--merch-sage)");
+
+  // Wave mathematics
+  const waveScale = d3.scaleLinear().range([0, svgWidth * 2]).domain([0, 1]);
+  const waveGenerator = d3.area()
+    .x(d => waveScale(d.x))
+    .y0(d => yPos + Math.sin(d.y * Math.PI * 4) * 4) // wave amplitude
+    .y1(svgHeight);
+
+  // Create data points for the wave curve
+  const waveData = [];
+  for (let i = 0; i <= 1; i += 0.02) {
+    waveData.push({ x: i, y: i });
+  }
+
+  const wave = group.append("path")
+    .datum(waveData)
+    .attr("d", waveGenerator)
+    .attr("fill", "var(--merch-sage)");
+
+  // Infinite looping wave animation
+  function animateWave() {
+    wave.transition()
+      .duration(2000)
+      .ease(d3.easeLinear)
+      .attr("transform", `translate(-${svgWidth}, 0)`)
+      .on("end", () => {
+        wave.attr("transform", "translate(0, 0)");
+        animateWave();
+      });
+  }
+  animateWave();
+}
+
+function spawnBubbles() {
+  if (!jarContainer.value) return;
+  const svg = d3.select(jarContainer.value).select("svg");
+  
+  const numBubbles = Math.floor(Math.random() * 4) + 6;
+  for (let i = 0; i < numBubbles; i++) {
+    const startX = Math.random() * svgWidth;
+    const size = Math.random() * 4 + 2;
+    const targetY = svgHeight - (svgHeight * (donationPercent.value / 100)) - 10;
+    
+    svg.append("circle")
+      .attr("cx", startX)
+      .attr("cy", svgHeight)
+      .attr("r", size)
+      .attr("fill", "rgba(255, 255, 255, 0.8)")
+      .transition()
+      .duration(1000 + Math.random() * 1500)
+      .ease(d3.easeCubicOut)
+      .attr("cy", targetY)
+      .style("opacity", 0)
+      .remove();
+  }
+}
 
 // ── Computed donations ──
 const donationPercent = computed(() =>
@@ -341,10 +473,13 @@ const cartTotal = computed(() =>
 );
 
 // ── Methods ──
-function addToCart(item) {
+function addToCart(item, event) {
   if (item.stock > 0) {
     cart.value.push({ ...item });
     item.stock--;
+    
+    // Trigger the paw-fetti micro-interaction at the click location
+    if (event) spawnPawfetti(event);
   }
 }
 
@@ -438,6 +573,54 @@ async function checkout() {
   } finally {
     isCheckingOut.value = false;
   }
+}
+
+// Micro-interaction: Dynamic particle explosion for positive feedback
+function spawnPawfetti(event) {
+  const numParticles = 6;
+  const colors = [
+    'var(--merch-sage)', 
+    'var(--merch-amber)', 
+    'var(--merch-rose)'];
+  
+  // Create a temporary overlay for the particles
+  const svg = d3.select("body")
+    .append("svg")
+    .style("position", "fixed")
+    .style("top", 0)
+    .style("left", 0)
+    .style("width", "100vw")
+    .style("height", "100vh")
+    .style("pointer-events", "none")
+    .style("z-index", 9999);
+
+  const mouseX = event.clientX;
+  const mouseY = event.clientY;
+
+  const heartPath = "M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.41,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.59,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z";
+
+  for (let i = 0; i < numParticles; i++) {
+    const angle = Math.random() * Math.PI * 2; // 360 degrees
+    const velocity = 40 + Math.random() * 60;   // Distance
+    const destinationX = mouseX + Math.cos(angle) * velocity;
+    const destinationY = mouseY + Math.sin(angle) * velocity;
+    const rotation = Math.random() * 360;
+
+    svg.append("path")
+      .attr("d", heartPath)
+      .attr("fill", colors[Math.floor(Math.random() * colors.length)])
+      .attr("transform", `translate(${mouseX}, ${mouseY}) scale(0.7) rotate(${rotation})`)
+      .style("opacity", 1)
+      .transition()
+      .duration(800 + Math.random() * 400)
+      .ease(d3.easeCubicOut)
+      .attr("transform", `translate(${destinationX}, ${destinationY}) scale(0.5) rotate(${rotation + 90})`)
+      .style("opacity", 0)
+      .remove(); // Clean up the DOM
+  }
+
+  // Remove the temporary SVG container after particles finish
+  setTimeout(() => svg.remove(), 1500);
 }
 
 </script>
