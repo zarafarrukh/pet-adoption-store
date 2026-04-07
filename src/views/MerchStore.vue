@@ -174,7 +174,7 @@
           </div>
 
           <div v-if="cart.length === 0" class="merch-cart-empty">
-            <img src="/public/empty-basket.png" alt="Sleeping cat" class="empty-basket-icon" />
+            <img src="/src/assets/images/empty-basket.png" alt="Sleeping cat" class="empty-basket-icon" />
             <p>Your basket is empty.</p>
           </div>
 
@@ -354,7 +354,7 @@ function renderD3Jar() {
     .append("svg")
     .attr("width", svgWidth)
     .attr("height", svgHeight)
-    .style("border", "2px solid var(--black)")
+    .style("border", "1.5px solid var(--black)")
     .style("border-radius", "4px 4px 24px 24px")
     .style("background", "transparent")
     .style("overflow", "hidden")

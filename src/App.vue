@@ -2,7 +2,7 @@
   <div id="app-layout">
     <nav :class="['nav', { 'nav--hidden': isHidden }]">
       <RouterLink to="/" class="nav-logo">
-        <img src="/pawmatch-logo.png" alt="PawMatch Logo" class="nav-logo-img" />
+        <img src="/src/assets/images/pawmatch-logo.png" alt="PawMatch Logo" class="nav-logo-img" />
         PawMatch
       </RouterLink>
       <div class="nav-links">
