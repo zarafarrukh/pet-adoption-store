@@ -35,3 +35,10 @@ function capitalize(s) {
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
 </script>
+
+<style scoped>
+/* Adding this block fixes the 'scoped' undefined error */
+.pet-card {
+  position: relative;
+}
+</style>

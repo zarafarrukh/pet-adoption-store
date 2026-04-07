@@ -18,7 +18,8 @@ export const PETS = [
     personality: 'Luna is a gentle soul who loves to curl up on laps and watch the world go by. She gets along well with other cats and quiet households.',
     diet: 'Wet food twice daily, fresh water always available. Avoid grain-heavy dry kibble.',
     shelter: 'Toronto Downtown Animal Rescue, Booth 4A',
-    camId: 'SkYbmNjPNbg',
+    localVideo:'src/assets/images/78623324bd864888b2bf24fbace7b16b.MOV',
+    camId: 'xbIq_OmRZDU',
   },
   {
     id: 7, name: 'Cleo', tag: 'cat', age: '5 yrs', breed: 'Maine Coon',
@@ -83,7 +84,7 @@ export const PETS = [
   },
   // Bunnies
   {
-    id: 17, name: 'Timbit', tag: 'bunny', age: '1 yr', breed: 'Holland Lop',
+    id: 17, name: 'Thumper', tag: 'bunny', age: '1 yr', breed: 'Holland Lop',
     image: 'https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=700&auto=format&fit=crop&q=80',
     vaccinated: ' Up to date', location: 'Bunny Burrow Rescue, Toronto',
     temperament: 'Gentle, curious', 
@@ -93,14 +94,15 @@ export const PETS = [
     camId: 'zzS5ENr4fpk',
   },
   {
-    id: 18, name: 'Thumper', tag: 'bunny', age: '2 yrs', breed: 'Flemish Giant',
+    id: 18, name: 'Timbit', tag: 'bunny', age: '2 yrs', breed: 'Flemish Giant',
     image: 'https://images.unsplash.com/photo-1452857297128-d9c29adba80b?w=700&auto=format&fit=crop&q=80',
     vaccinated: ' Up to date', location: 'Big Paws Sanctuary, Toronto',
     temperament: 'Calm, laid-back',
     personality: 'Thumper is a gentle giant who loves lounging in sunbeams. Despite his size he is docile and loves being pet along his ears.',
     diet: 'Large amounts of hay, romaine lettuce, and kale. Avoid iceberg lettuce and starchy vegetables.',
     shelter: 'Big Paws Sanctuary, Suite 3',
-    camId: 'zzS5ENr4fpk',
+    localVideo:'src/assets/images/BE3F0961-0439-4527-A99A-69B00F2937E7.MOV',
+    camId: 'xbIq_OmRZDU',
   },
   // Reptiles
   {
