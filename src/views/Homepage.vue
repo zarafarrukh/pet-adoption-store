@@ -19,13 +19,6 @@
           <RouterLink to="/quiz" class="hero-btn outline-btn">Pet Quiz</RouterLink>
           <RouterLink to="/browse" class="hero-btn primary-btn">Adopt Now</RouterLink>
         </div>
-
-        <!-- Working feature buttons -->
-        <div class="hero-badges">
-          <a href="#ethics" class="hero-badge-link">Ethically sourced pets</a>
-          <RouterLink to="/browse" class="hero-badge-link">Live footage option</RouterLink>
-          <a href="#testimonials" class="hero-badge-link">Owner testimonials</a>
-        </div>
       </div>
 
       <!-- Decorative SVG paw -->
