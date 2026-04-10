@@ -1,5 +1,5 @@
 <template>
-  <div class="pet-card" :style="{ animationDelay: delay + 's' }" @click="$emit('click', pet)">
+  <div class="pet-card" :style="{ animationDelay: delay + 's' }" @click="goToAdoption">
     <div class="card-img">
       <img :src="pet.image" :alt="pet.name" loading="lazy" />
       <span class="card-tag">{{ tagEmoji }} {{ capitalize(pet.tag) }}</span>
@@ -11,8 +11,8 @@
         <span class="sep">·</span>
         <span>{{ pet.breed }}</span>
       </div>
-      <button class="adopt-btn" @click.stop="$emit('click', pet)">
-        View {{ pet.name }}
+      <button class="adopt-btn" @click.stop="goToAdoption">
+        Adopt {{ pet.name }}
       </button>
     </div>
   </div>
@@ -20,6 +20,7 @@
 
 <script setup>
 import { computed } from 'vue'
+import { useRouter } from 'vue-router' // Added router import to handle navigation
 import { TAGS } from '../data/pets.js'
 
 const props = defineProps({
@@ -27,9 +28,17 @@ const props = defineProps({
   delay: { type: Number, default: 0 },
 })
 
-defineEmits(['click'])
+const router = useRouter()
 
 const tagEmoji = computed(() => TAGS.find(t => t.id === props.pet.tag)?.emoji ?? '')
+
+// Function to handle navigation to the Adoption Form
+const goToAdoption = () => {
+  router.push({ 
+    path: '/adopt', 
+    query: { petId: props.pet.id } // Passes the ID to the form
+  })
+}
 
 function capitalize(s) {
   return s.charAt(0).toUpperCase() + s.slice(1)
@@ -37,8 +46,9 @@ function capitalize(s) {
 </script>
 
 <style scoped>
-/* Adding this block fixes the 'scoped' undefined error */
 .pet-card {
   position: relative;
+  cursor: pointer;
 }
+/* You can add more styles here if needed */
 </style>
