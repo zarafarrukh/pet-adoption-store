@@ -1,0 +1,11 @@
+# AI Usage Disclosure (PawMatch Project)
+
+We utilized AI during this project primarily for debugging and understanding specific library syntax. Below is a summary of our AI usage:
+
+Topic: Firebase Integration & Security
+* Prompt Summary: "How do I securely share my Firebase database connection without uploading the keys to GitHub?"
+* How we used it: Used the explanation to correctly set up `.env` file submission. This helped us keep our API keys secure while allowing both the Merch Store and Adoption Form to write to the same database.
+
+Topic: D3.js Liquid Animation
+* Prompt Summary: "How do I make a D3.js wave animation for a donation jar that updates based on a percentage?"
+* How we used it: We adapted the math and SVG path generation logic to fit our specific color scheme (--merch-sage) and container size.
