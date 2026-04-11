@@ -8,3 +8,6 @@
 * Data Visualization: Programmed the interactive D3.js liquid wave animation for the donation jar.
 * Transactions: Implemented the async checkout workflow and donation database updates.
 * Accessibility & UX: Added Dark Mode, Large Text toggles, and event-driven particle micro-interactions.
+
+
+## Name: 
