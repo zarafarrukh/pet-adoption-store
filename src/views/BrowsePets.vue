@@ -22,7 +22,7 @@
           :key="pet.id"
           :pet="pet"
           :delay="i * 0.04"
-          @click="$emit('open-modal', pet)"
+          @open-modal="$emit('open-modal', $event)" 
         />
 
         <div class="empty-state" v-if="filteredPets.length === 0">

@@ -1,5 +1,5 @@
 <template>
-  <div class="pet-card" :style="{ animationDelay: delay + 's' }" @click="goToAdoption">
+  <div class="pet-card" :style="{ animationDelay: delay + 's' }" @click="$emit('open-modal', pet)">
     <div class="card-img">
       <img :src="pet.image" :alt="pet.name" loading="lazy" />
       <span class="card-tag">{{ tagEmoji }} {{ capitalize(pet.tag) }}</span>
@@ -20,7 +20,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import { useRouter } from 'vue-router' // Added router import to handle navigation
+import { useRouter } from 'vue-router'
 import { TAGS } from '../data/pets.js'
 
 const props = defineProps({
@@ -28,15 +28,18 @@ const props = defineProps({
   delay: { type: Number, default: 0 },
 })
 
+// Tell the parent (BrowsePets) we want to open the modal
+defineEmits(['open-modal'])
+
 const router = useRouter()
 
 const tagEmoji = computed(() => TAGS.find(t => t.id === props.pet.tag)?.emoji ?? '')
 
-// Function to handle navigation to the Adoption Form
+// Navigation logic for the form
 const goToAdoption = () => {
   router.push({ 
     path: '/adopt', 
-    query: { petId: props.pet.id } // Passes the ID to the form
+    query: { petId: props.pet.id }
   })
 }
 
@@ -50,5 +53,4 @@ function capitalize(s) {
   position: relative;
   cursor: pointer;
 }
-/* You can add more styles here if needed */
 </style>
