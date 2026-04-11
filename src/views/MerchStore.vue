@@ -139,7 +139,14 @@
               <p class="merch-card-desc">{{ item.description }}</p>
 
               <div class="merch-card-footer">
-                <span class="merch-card-price">${{ item.price.toFixed(2) }}</span>
+                <div class="merch-card-prices">
+                  <span v-if="item.salePrice" class="merch-card-original-price">
+                    ${{ item.price.toFixed(2) }}
+                  </span>
+                  <span class="merch-card-price" :class="{ 'merch-price-sale': item.salePrice }">
+                    ${{ item.salePrice ? item.salePrice.toFixed(2) : item.price.toFixed(2) }}
+                  </span>
+                </div>
                 <div class="merch-card-actions">
 
                   <!--REQUIREMENT: SVG speaker symbol for text-to-speech button-->
@@ -310,6 +317,7 @@ onMounted(async () => {
         id: doc.id,
         ...data,
         price: Number(data.price),  // force from string to number from firebase
+        salePrice: data.salePrice ? Number(data.salePrice) : null,
       }
     })
 
@@ -475,10 +483,11 @@ const cartTotal = computed(() =>
 // ── Methods ──
 function addToCart(item, event) {
   if (item.stock > 0) {
-    cart.value.push({ ...item });
+    cart.value.push({ 
+      ...item, 
+      price: item.salePrice ?? item.price  // use sale price if exists
+    });
     item.stock--;
-    
-    // Trigger the paw-fetti micro-interaction at the click location
     if (event) spawnPawfetti(event);
   }
 }

@@ -704,6 +704,23 @@ footer {
   font-weight: 400;
 }
 
+.merch-card-prices {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.merch-card-original-price {
+  font-size: 11px;
+  color: var(--merch-ink-light);
+  text-decoration: line-through;
+}
+
+.merch-price-sale {
+  color: var(--merch-rose);
+  font-weight: 500;
+}
+
 .merch-card-actions {
   display: flex;
   align-items: center;
