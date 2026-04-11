@@ -10,4 +10,11 @@
 * Accessibility & UX: Added Dark Mode, Large Text toggles, and event-driven particle micro-interactions.
 
 
-## Name: 
+## Name: Syeda Bisha Fatima
+* Hosted website through github here : https://bishafatima.github.io/pet-store-adoption/#/ (not all local features/assets are deployable)
+Browse Pets Page:
+* Designed and implemented the "Browse Pets" page using a modular component architecture to display pet profiles via custom-built Pet Cards.
+* Developed a client-side filtering system allowing users to filter their choice of pets.
+* Implemented a Live Camera Video feature on pet profile pages, providing users with a real-time view of animals to enhance the virtual adoption experience (These are videos of pets right now due to local host).
+Adoption Application Page
+* Designed and implemented a Adoption Application Form integrated with Firebase Firestore for persistent data storage and real-time submission tracking (tested using Firebase setup).

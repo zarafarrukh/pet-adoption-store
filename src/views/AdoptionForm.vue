@@ -152,50 +152,5 @@ const submitForm = async () => {
 </script>
 
 <style scoped>
-.adoption-page { padding: 40px; max-width: 600px; margin: 0 auto; font-family: 'Barlow', sans-serif; }
-.header-section { margin-bottom: 30px; text-align: center; }
-h2 { text-transform: uppercase; font-weight: 900; letter-spacing: -1px; margin-bottom: 5px; }
-.subtitle { color: #666; font-size: 0.9rem; }
 
-.form-section { background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px; display: flex; flex-direction: column; gap: 12px; }
-h3 { font-size: 1rem; margin-bottom: 5px; color: #111; border-bottom: 2px solid #F9E000; display: inline-block; width: fit-content; }
-
-input, select, textarea { 
-  padding: 12px; 
-  border: 1.5px solid #ddd; 
-  font-size: 1rem;
-  transition: border-color 0.2s;
-}
-
-input:focus, select:focus, textarea:focus {
-  border-color: #111;
-  outline: none;
-}
-
-.checkbox-group { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; }
-
-.submit-btn { 
-  background: #111; 
-  color: #F9E000; 
-  padding: 18px; 
-  font-weight: 800; 
-  text-transform: uppercase;
-  border: none; 
-  cursor: pointer; 
-  width: 100%;
-  transition: transform 0.1s;
-}
-
-.submit-btn:active { transform: scale(0.98); }
-.submit-btn:disabled { background: #666; cursor: not-allowed; }
-
-.success-banner { 
-  margin-top: 20px; 
-  padding: 15px; 
-  background: #E2EFDA; 
-  color: #385723; 
-  text-align: center; 
-  font-weight: bold; 
-  border-radius: 4px;
-}
 </style>

@@ -9,3 +9,10 @@ Topic: Firebase Integration & Security
 Topic: D3.js Liquid Animation
 * Prompt Summary: "How do I make a D3.js wave animation for a donation jar that updates based on a percentage?"
 * How we used it: We adapted the math and SVG path generation logic to fit our specific color scheme (--merch-sage) and container size.
+
+Topic and Prompt Summary: How to host vue and vite through github?
+* Wanted to learn how to do this
+
+Topic: Modularity for Browse Pets
+* Prompt Summary: Given a basic vue structure template, suggest ways to optimise my architechture and make it more modular
+* Used its response to modify my structure and I am quite content with it. 
