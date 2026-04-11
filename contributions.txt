@@ -15,3 +15,10 @@ Browse Pets Page:
 * Implemented a Live Camera Video feature on pet profile pages, providing users with a real-time view of animals to enhance the virtual adoption experience (These are videos of pets right now due to local host).
 Adoption Application Page
 * Designed and implemented a Adoption Application Form integrated with Firebase Firestore for persistent data storage and real-time submission tracking (tested using Firebase setup).
+
+## Name: Rabia Chattha
+* Frontend UI: Designed and implemented the hompeage layout including the hero section, About, Pet Categories, Testimonials carousel, Ethics, and Contact sections
+* Dynamic: Developed dynamic category rendering and built an interactive Testimonials carousel with auto rotation controls
+* Integrated router for homepage navigation and scroll behaviour for consistent page loading
+* styled the homepage with custom CSS, adding responsive design, hover effects, and improvved carousel visuals
+* Added SVG graphics and image based category cards to enhance the user interface
