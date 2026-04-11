@@ -63,12 +63,23 @@
           <button class="cam-close-btn" @click="showCam = false">✕ Close</button>
         </div>
         <div class="cam-body">
-          <iframe
-            :src="`src/assets/images/BE3F0961-0439-4527-A99A-69B00F2937E7.MOV`"
-            allow="autoplay; encrypted-media"
-            allowfullscreen
-          ></iframe>
-        </div>
+          <video 
+        v-if="pet.localVideo" 
+        :src="pet.localVideo" 
+        controls 
+        autoplay 
+        muted 
+        loop
+        style="width: 100%; height: 100%; object-fit: cover;"
+      ></video>
+
+      <iframe 
+        v-else
+        :src="`https://www.youtube.com/embed/${pet.camId}?autoplay=1&mute=1`" 
+        allow="autoplay; encrypted-media" 
+        allowfullscreen>
+      </iframe>
+    </div>
       </div>
     </div>
   </div>
