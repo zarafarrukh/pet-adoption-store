@@ -1,0 +1,18 @@
+# AI Usage Disclosure (PawMatch Project)
+
+We utilized AI during this project primarily for debugging and understanding specific library syntax. Below is a summary of our AI usage:
+
+Topic: Firebase Integration & Security
+* Prompt Summary: "How to securely share a Firebase database connection without exposing keys on GitHub?"
+* Usage: Helped me set up and share a '.env' file so our API keys stay private.
+
+Topic: D3.js Liquid Animation
+* Prompt Summary: "Guide to creating a percentage-based D3.js wave animation for a donation jar."
+* Usage: Used the core math and SVG logic, and adjusted it to match my Paw-tique Store layout and color theme (--merch-sage).
+
+Topic and Prompt Summary: How to host vue and vite through github?
+* Wanted to learn how to do this
+
+Topic: Modularity for Browse Pets
+* Prompt Summary: Given a basic vue structure template, suggest ways to optimise my architechture and make it more modular
+* Used its response to modify my structure and I am quite content with it. 
