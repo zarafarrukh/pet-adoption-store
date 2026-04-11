@@ -150,7 +150,3 @@ const submitForm = async () => {
   }
 };
 </script>
-
-<style scoped>
-
-</style>
