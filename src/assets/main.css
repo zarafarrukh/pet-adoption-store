@@ -154,6 +154,22 @@ footer {
   --merch-ink-faint:   #7a6a58;
   --merch-stripe-a:    #3a3028;
   --merch-stripe-b:    #2e2820;
+  --merch-bg:          #1e1a15;
+  --merch-surface:     #26211a;
+  --merch-surface-2:   #2e2820;
+  --merch-card-bg:     #2a2318;
+  --merch-border:      #4a3f32;
+  --merch-border-soft: #5a4d3e;
+  --merch-ink:         #f0e9de;
+  --merch-ink-mid:     #c9b8a8;
+  --merch-ink-light:   #a89080;
+  --merch-ink-faint:   #7a6a58;
+  --merch-stripe-a:    #3a3028;
+  --merch-stripe-b:    #2e2820;
+  --merch-rose:        #8c4f48; 
+  --merch-sage:        #576b51; 
+  --merch-amber:       #a38142; 
+  --merch-lavender:    #695e7a;
 }
 /* Base fade-in animation for page load */
 @keyframes fadeInUp {
@@ -197,25 +213,26 @@ footer {
 
 .merch-stripe {
   flex: 1;
+  transition: background-color 0.3s ease; /* Adds smooth fade for dark mode */
 }
 
 .merch-stripe:nth-child(1),  .merch-stripe:nth-child(7),
-.merch-stripe:nth-child(13), .merch-stripe:nth-child(19) { background: #d4837a; }
+.merch-stripe:nth-child(13), .merch-stripe:nth-child(19) { background: var(--merch-rose); }
 
 .merch-stripe:nth-child(2),  .merch-stripe:nth-child(8),
-.merch-stripe:nth-child(14), .merch-stripe:nth-child(20) { background: #f0e9de; }
+.merch-stripe:nth-child(14), .merch-stripe:nth-child(20) { background: var(--merch-surface); }
 
 .merch-stripe:nth-child(3),  .merch-stripe:nth-child(9),
-.merch-stripe:nth-child(15) { background: #8fad88; }
+.merch-stripe:nth-child(15) { background: var(--merch-sage); }
 
 .merch-stripe:nth-child(4),  .merch-stripe:nth-child(10),
-.merch-stripe:nth-child(16) { background: #f0e9de; }
+.merch-stripe:nth-child(16) { background: var(--merch-surface); }
 
 .merch-stripe:nth-child(5),  .merch-stripe:nth-child(11),
-.merch-stripe:nth-child(17) { background: #f1c46f; }
+.merch-stripe:nth-child(17) { background: var(--merch-amber); }
 
 .merch-stripe:nth-child(6),  .merch-stripe:nth-child(12),
-.merch-stripe:nth-child(18) { background: #f0e9de; }
+.merch-stripe:nth-child(18) { background: var(--merch-surface); }
 
 /* --- Storefront Header --- */
 .merch-storefront {

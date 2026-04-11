@@ -1,14 +1,11 @@
 # Project Contributions: PawMatch
 
 ## Name: Zara Farrukh
-* E-Commerce UI: Designed and developed the complete "Paw-tique" shop interface.
-* Database Setup: Configured the Firebase/Firestore backend, security rules, and environment variables.
+* Frontend UI: Developed the "Paw-tique" shop interface and coded the custom animated SVG cat.
+* Backend Services (Firebase): Configured the Firestore cloud database to manage asynchronous Pawtique shop inventory fetching, secure checkout and donation updates.
 * Dynamic State Management: Built the reactive Shopping Cart logic with automated local storage syncing.
-* Data Integration: Engineered the real-time, asynchronous inventory fetching pipeline.
-* Data Visualization: Programmed the interactive D3.js liquid wave animation for the donation jar.
-* Transactions: Implemented the async checkout workflow and donation database updates.
-* Accessibility & UX: Added Dark Mode, Large Text toggles, and event-driven particle micro-interactions.
-
+* Data Visualization: Programmed the interactive D3.js liquid wave animation. This powers the dynamic shelter donation jar.
+* Accessibility & UX: Engineered accessibility tools; Dark Mode, Large Text scaling and Text-to-Speech (TTS) product reader.
 
 ## Name: Syeda Bisha Fatima
 * Hosted website through github here : https://bishafatima.github.io/pet-store-adoption/#/ (not all local features/assets are deployable)

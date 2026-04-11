@@ -152,7 +152,7 @@
                   <!--REQUIREMENT: SVG speaker symbol for text-to-speech button-->
                   <button
                     class="merch-tts-btn"
-                    @click="readAloud(item.description)"
+                    @click="readAloud(item)"
                     title="Read description aloud"
                     aria-label="Read description aloud"
                   ><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="merch-tts-icon">
@@ -503,9 +503,35 @@ function toggleFilter(id) {
   idx === -1 ? activeFilters.value.push(id) : activeFilters.value.splice(idx, 1);
 }
 
-function readAloud(text) {
+function readAloud(item) {
+  // Stop any currently playing speech so they don't overlap
   window.speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(text);
+
+  // 1. Start with the name and category
+  let speechText = `${item.name}. Category: ${item.category}. `;
+
+  // 2. Add therapy certification if it applies
+  if (item.isTherapyCertified) {
+    speechText += `This item is therapy certified. `;
+  }
+
+  // 3. Handle pricing (incase sale is mentioned)
+  if (item.salePrice) {
+    speechText += `Currently on sale for ${item.salePrice} dollars, originally ${item.price} dollars. `;
+  } else {
+    speechText += `Price: ${item.price} dollars. `;
+  }
+
+  // 4. Mention if it is sold out
+  if (item.stock === 0) {
+    speechText += `Currently sold out. `;
+  }
+
+  // 5. Add item description
+  speechText += `Description: ${item.description}`;
+
+  // Read out loud
+  const utterance = new SpeechSynthesisUtterance(speechText);
   window.speechSynthesis.speak(utterance);
 }
 
@@ -571,7 +597,7 @@ async function checkout() {
     // 3. Wait for all Firebase updates to finish at the same time
     await Promise.all(updatePromises);
 
-    // 4. Success! Clear the cart and show the modal
+    // 4. Clear the cart and show the modal
     cart.value = [];
     isCartOpen.value = false;
     isCheckoutSuccess.value = true; 
