@@ -8,12 +8,21 @@ A modern pet adoption platform built with Vue + Firebase.
 
 Follow these steps to run the project locally:
 
-1. Unzip the folder and open it in your terminal  
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/zarafarrukh/pet-adoption-store.git
+   cd pet-adoption-store
+   ```
 2. Ensure **Node.js** is installed  
 3. Install dependencies:
    ```bash
    npm install
-4. Open the local URL provided (usually):
+   ```
+4. Start development server:
+    ```bash
+   npm run dev
+   ```
+6. Open the local URL shown in your terminal (usually):
     ```
     http://localhost:5173
     ```
