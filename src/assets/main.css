@@ -118,7 +118,7 @@ body {
   background: rgba(245, 240, 230, 0.95);
   backdrop-filter: blur(8px);
   box-shadow: 0 4px 20px rgba(102, 74, 47, 0.08);
-  z-index: 1000;
+  z-index: 500;
   transition: transform 0.3s ease-in-out;
 }
 
