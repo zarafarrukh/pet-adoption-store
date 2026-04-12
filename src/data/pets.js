@@ -94,7 +94,7 @@ export const PETS = [
     camId: 'zzS5ENr4fpk',
   },
   {
-    id: 18, name: 'Timbit', tag: 'bunny', age: '2 yrs', breed: 'Flemish Giant',
+    id: 18, name: 'Timbit', tag: 'bunny', age: '2 yrs', breed: 'Holland Lop',
     image: 'https://images.unsplash.com/photo-1452857297128-d9c29adba80b?w=700&auto=format&fit=crop&q=80',
     vaccinated: ' Up to date', location: 'Big Paws Sanctuary, Toronto',
     temperament: 'Calm, laid-back',
