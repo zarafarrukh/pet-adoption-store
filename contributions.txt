@@ -6,6 +6,7 @@
 * Dynamic State Management: Built the reactive Shopping Cart logic with automated local storage syncing.
 * Data Visualization: Programmed the interactive D3.js liquid wave animation. This powers the dynamic shelter donation jar.
 * Accessibility & UX: Engineered accessibility tools; Dark Mode, Large Text scaling and Text-to-Speech (TTS) product reader.
+* App.vue: Implemented smart navbar logic, responsive footer and navigation links across the web app.
 
 ## Name: Syeda Bisha Fatima
 * Hosted website through github here : https://bishafatima.github.io/pet-store-adoption/#/ (not all local features/assets are deployable)

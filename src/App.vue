@@ -15,7 +15,12 @@
     
     <RouterView @open-modal="openModal" />
     
-    <footer>PawMatch 2026</footer>
+    <footer class="site-footer">
+      <span class="site-footer-brand">PawMatch</span>
+      <span class="site-footer-note">helping pets find their forever homes</span>
+      <span class="site-footer-copy">© 2026. All Rights Reserved</span>
+    </footer>
+
     <PetModal v-if="selectedPet" :pet="selectedPet" @close="closeModal" />
   </div>
 </template>
@@ -39,7 +44,7 @@ function onScroll() {
   // 2. Only trigger if the user scrolls more than 60px (threshold)
   if (Math.abs(currentScrollPosition - lastScrollPosition) < 60) return
 
-  // 3. If current is greater than last, we are scrolling down -> Hide
+  // 3. If current is greater than last -> scrolling down -> Hide
   isHidden.value = currentScrollPosition > lastScrollPosition
   
   // 4. Update last position

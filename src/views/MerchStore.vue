@@ -253,14 +253,6 @@
         </div>
       </div>
     </transition>
-
-    <!-- Footer -->
-    <footer class="merch-footer">
-      <span class="merch-footer-brand">The Paw-tique</span>
-      <span class="merch-footer-note">every purchase feeds a shelter pet</span>
-      <span class="merch-footer-copy">PawMatch · 2026</span>
-    </footer>
-
   </div>
 </template>
 
@@ -659,7 +651,3 @@ function spawnPawfetti(event) {
 }
 
 </script>
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Jost:wght@300;400;500&display=swap');
-</style>

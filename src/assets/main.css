@@ -1,3 +1,6 @@
+/* --- GLOBAL IMPORTS --- */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Jost:wght@300;400;500&display=swap');
+
 /* --- GLOBAL VARIABLES & RESET --- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }  
 
@@ -24,12 +27,12 @@ body {
 /* --- LAYOUT (App.vue Styles) --- */
 #app-layout {
   /* prevents content from hiding behind the fixed navbar */
-  padding-top: 64px; 
+  padding-top: 70px; 
 }
 
+/* --- Navbar --- */
 .nav { 
-  height: 64px; 
-  border-bottom: 1.5px solid var(--black); 
+  height: 70px; 
   display: flex; 
   align-items: center; 
   justify-content: space-between; 
@@ -38,85 +41,107 @@ body {
   top: 0; 
   left: 0;
   width: 100%;
-  background: #fff; 
+  background: rgba(245, 240, 230, 0.95);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 20px rgba(102, 74, 47, 0.08);
+  
   z-index: 1000;
   transition: transform 0.3s ease-in-out;
 }
+
 .nav--hidden {
   transform: translateY(-100%);
 }
+
 .nav-logo {
   display: flex;
   align-items: center;
   gap: 12px;
   text-decoration: none;
   font-weight: 900;
-  color: var(--black);
+  color: #241a0f; 
+  text-transform: uppercase; 
 }
 
 .nav-logo-img {
   height: 32px;
   width: auto;
 }
+
 .nav-links {
   display: flex;
   gap: 20px;
   align-items: center;
 }
+
 .nav-links a {
   text-decoration: none;
-  color: var(--black);
+  color: #241a0f; 
   font-weight: 600;
-  transition: opacity 0.15s;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.9rem;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
-.nav-links a:hover { opacity: 0.5; }
-.nav-cta { 
-  background: var(--yellow); 
+
+.nav-links a:hover { 
+  color: #b1a396; 
+  transform: translateY(-2px);
+}
+
+.nav-links a.router-link-active {
+  color: var(--primary); 
+}
+
+.nav-links a.nav-cta, 
+.nav-links a.nav-cta.router-link-active { 
+  background: #43301b; 
+  color: #f0e9de;
   padding: 8px 16px; 
-  border: 1.5px solid var(--black); 
-  text-decoration: none; 
-  color: var(--black); 
+  border: none; 
+  border-radius: 4px;
   font-weight: 800; 
-}
-footer { 
-  background: var(--black); 
-  color: var(--yellow); 
-  text-align: center; 
-  padding: 20px; 
-  font-weight: 800; 
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-/* --- NAVBAR STYLES --- */
-.nav-logo { 
-  font-weight: 900; 
-  text-transform: uppercase; 
-  text-decoration: none;
-  color: var(--black); 
-  cursor: pointer;
+.nav-cta:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+  color: #f0e9de;
 }
 
-/* --- COMPONENT STYLES --- */
-.home { 
-  text-align: center; 
-  padding: 100px 40px; 
+/* --- Footer --- */
+.site-footer {
+  background: #241a0f;
+  color: #c9b8a8;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 48px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 300;
+  font-family: 'Jost', sans-serif;
 }
-.links { 
-  display: flex; 
-  gap: 20px; 
-  justify-content: center; 
-  margin-top: 40px; 
+
+.site-footer-brand {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 18px;
+  font-style: italic;
+  color: #f0e9de;
+  letter-spacing: 0;
+  text-transform: none;
 }
-.links a { 
-  background: var(--yellow); 
-  padding: 12px 24px; 
-  border: 1.5px solid var(--black); 
-  text-decoration: none; 
-  color: var(--black); 
-  font-weight: 800; 
-  transition: transform 0.2s ease;
-}
-.links a:hover {
-  transform: translateY(-3px);
+
+/* Responsive adjustment for smaller screens */
+@media (max-width: 768px) {
+  .site-footer {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+    padding: 24px;
+  }
 }
 
 /* --- MERCH PAGE STYLES --- */
@@ -166,9 +191,9 @@ footer {
   --merch-ink-faint:   #7a6a58;
   --merch-stripe-a:    #3a3028;
   --merch-stripe-b:    #2e2820;
-  --merch-rose:        #8c4f48; 
+  --merch-rose:        #e47367; 
   --merch-sage:        #576b51; 
-  --merch-amber:       #a38142; 
+  --merch-amber:       #d2a653; 
   --merch-lavender:    #695e7a;
 }
 /* Base fade-in animation for page load */
@@ -213,7 +238,7 @@ footer {
 
 .merch-stripe {
   flex: 1;
-  transition: background-color 0.3s ease; /* Adds smooth fade for dark mode */
+  transition: background-color 0.3s ease;
 }
 
 .merch-stripe:nth-child(1),  .merch-stripe:nth-child(7),
@@ -1001,29 +1026,6 @@ footer {
   text-transform: uppercase;
   cursor: pointer;
   font-family: var(--merch-font-sans);
-}
-
-/* --- Footer --- */
-.merch-footer {
-  background: var(--merch-ink);
-  color: var(--merch-border-soft);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 48px;
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  font-weight: 300;
-}
-
-.merch-footer-brand {
-  font-family: var(--merch-font-serif);
-  font-size: 16px;
-  font-style: italic;
-  color: var(--merch-surface);
-  letter-spacing: 0;
-  text-transform: none;
 }
 
 /* --- Vue Transitions --- */
