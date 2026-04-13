@@ -23,3 +23,12 @@ Adoption Application Page
 * Integrated router for homepage navigation and scroll behaviour for consistent page loading
 * styled the homepage with custom CSS, adding responsive design, hover effects, and improvved carousel visuals
 * Added SVG graphics and image based category cards to enhance the user interface
+
+## Name: Saeem Patel
+* Built a full PetMatcher Quiz page as a new PetQuiz.vue file that drops into src/views/ with no changes needed to the rest of the codebase except the router.
+* Built a quiz that walks users through 7 lifestyle questions using two interaction styles, clickable icon cards for multiple choice answers, and rating  scales where icons light up as you select a value.
+* Built a paw print trail at the top of the screen acts as the progress indicator, with each paw animating and filling in as the user moves forward.
+* Built a scoring engine that runs in the background, comparing the user's answers against a compatibility profile for each pet type and producing a 0–100 match score for every pet in the existing data.
+* The results screen shows the top 6 matched pets, each with a compatibility percentage bar and trait indicators for energy, space, and time commitment shown as icon rows out of 5.
+* Adopt buttons on result cards route directly to the adoption form with the pet pre-selected, and clicking a card opens the existing pet modal used across the rest of the site.
+* Updated router.js to register the /quiz route, so the nav links already present in App.vue and Homepage.vue work without any additional changes.
