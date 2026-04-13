@@ -30,9 +30,9 @@ Follow these steps to run the project locally:
    npm run dev
    ```
 ### 6. Open the local URL shown in your terminal (usually):
-    ```
+   ```bash
     http://localhost:5173
-    ```
+   ```
 
 ### ⚠️ Important
 - A `.env` file is included with Firebase API keys  
