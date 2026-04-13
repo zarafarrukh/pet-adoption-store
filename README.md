@@ -98,7 +98,8 @@ Follow these steps to run the project locally:
 
 ## 🎥 Demo
 
-> See the included `intro.mp4` file for a full walkthrough of the app.
+Watch our full project walkthrough video here:  
+▶️ [**PawMatch Demo Video**](https://drive.google.com/file/d/16H-lhGn7vurqGBg22t5TB6pm4FKlmSfn/view?usp=drive_link)
 
 ---
 
